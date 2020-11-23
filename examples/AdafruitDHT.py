@@ -39,7 +39,7 @@ def post_to_mcs(payload):
 		except (http.HTTPException, socket.error) as ex: 
 			print ("Error: %s" % ex)
  			time.sleep(10)
-	conn.request("POST", "/mcs/v2/devices/" + deviceId + "/datapoints", json.dumps(payload), headers) 
+			conn.request("POST", "/mcs/v2/devices/" + deviceId + "/datapoints", json.dumps(payload), headers) 
 	response = conn.getresponse() 
 	print(response.status, response.reason, json.dumps(payload), time.strftime("%c")) 
 	data = response.read() 
