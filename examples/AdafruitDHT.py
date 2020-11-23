@@ -36,9 +36,9 @@ def post_to_mcs(payload):
 			conn = http.HTTPConnection("api.mediatek.com:80")
 			conn.connect() 
 			not_connected = 0 
-		except (http.HTTPException, socket.error) as ex: 
+			except (http.HTTPException, socket.error) as ex: 
 			print ("Error: %s" % ex)
- 				time.sleep(10)
+ 			time.sleep(10)
 			 # sleep 10 seconds 
 	conn.request("POST", "/mcs/v2/devices/" + deviceId + "/datapoints", json.dumps(payload), headers) 
 	response = conn.getresponse() 
