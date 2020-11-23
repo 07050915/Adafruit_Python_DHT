@@ -19,15 +19,16 @@
 # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
-import time
 import sys
-import Adafruit_DHT
 import http.client as http
 import urllib
 import json
-deviceId="Dt0X4X8s"
-deviceKey="F6RC4Lcz071S6CK2"
-# Parse command line parameters.
+import time
+import Adafruit_DHT
+
+deviceId = 'DVDsquZx'
+deviceKey = '4v9qgv9fXNUYKudK' 
+
 def post_to_mcs(payload): 
 	headers = {"Content-type": "application/json", "deviceKey": deviceKey} 
 	not_connected = 1 
@@ -38,14 +39,17 @@ def post_to_mcs(payload):
 			not_connected = 0 
 		except (http.HTTPException, socket.error) as ex: 
 			print ("Error: %s" % ex)
- 			time.sleep(10)
-			conn.request("POST", "/mcs/v2/devices/" + deviceId + "/datapoints", json.dumps(payload), headers) 
+			time.sleep(10)
+			 # sleep 10 seconds 
+	conn.request("POST", "/mcs/v2/devices/" + deviceId + "/datapoints", json.dumps(payload), headers) 
 	response = conn.getresponse() 
-	print(response.status, response.reason, json.dumps(payload), time.strftime("%c")) 
+	print( response.status, response.reason, json.dumps(payload), time.strftime("%c")) 
 	data = response.read() 
 	conn.close() 
+ 
 
 
+# Parse command line parameters.
 sensor_args = { '11': Adafruit_DHT.DHT11,
                 '22': Adafruit_DHT.DHT22,
                 '2302': Adafruit_DHT.AM2302 }
@@ -73,15 +77,13 @@ if humidity is not None and temperature is not None:
 else:
     print('Failed to get reading. Try again!')
     sys.exit(1)
-
 while(1):
-	h0, t0= Adafruit_DHT.read_retry(sensor, pin)
+	h0,t0 = Adafruit_DHT.read_retry(sensor,pin)
 	if h0 is not None and t0 is not None:
-		print('Temp={0:0.1f}*  Humidity={1:0.1f}%'.format(t0, h0))
-		payload = {"datapoints":[{"dataChnId":"Humidity","values":{"value":h0}},
-		{"dataChnId":"Temperature","values":{"value":t0}}]} 
+		print('Temp={0:0.1f}* Humidity={1:0.1f}%'.format(t0,h0))
+		payload = {"datapoints":[{"dataChnId":"Humidity","values":{"value":h0}},{"dataChnId":"Temperature","values":{"value":t0}}]} 
 		post_to_mcs(payload)
-		time.sleep(10) 
+		time.sleep(10)
 	else:
 		print('Failed to get reading. Try again!')
 		sys.exit(1)
