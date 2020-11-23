@@ -84,7 +84,6 @@ while true:
 		{"dataChnId":"Temperature","values":{"value":t0}}]} 
 	post_to_mcs(payload)
 	time.sleep(10) 
-
-else:
-print('Failed to get reading. Try again!')
-sys.exit(1)
+	else:
+	print('Failed to get reading. Try again!')
+	sys.exit(1)
